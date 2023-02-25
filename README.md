@@ -9,6 +9,12 @@ The two most notable differences between Version 3 and Version 4 of the DCC Wiza
 
 -------------
 
+Update 1.01: 2023-02-24
+
+New files added: patron.php, and familiar.php.  Updates to weapons.php, and dccWizard.php.
+
+
+
 Initial commit: 2023-02-23
 
 The initial commit for the DCC Wizard Character Generator Version 4.
