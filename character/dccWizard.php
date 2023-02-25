@@ -45,6 +45,8 @@
     include 'php/xp.php';
     include 'php/nameSelect.php';
     include 'php/gender.php';
+    include 'php/patron.php';
+    include 'php/familiar.php';
 
     if(isset($_POST["theCharacterName"]))
     {
@@ -137,6 +139,58 @@
             $abilityScoreGen = $_POST["theAbilityScore"];
         
         } 
+        
+        $patronArray = array();
+
+        //For Patron
+        if(isset($_POST['thePatron']) && $_POST['thePatron'] == 1) 
+        {
+            $patronNumber = rand(0, 7);
+            $patronArray = getPatron($patronNumber);   
+
+            $patronName = $patronArray[0];
+            $patronDescription = $patronArray[1];
+        }
+        else
+        {
+            $patronName = "";
+            $patronDescription = "";
+
+        }
+
+
+        $familiarForm = array();
+        
+        //Familiar
+        if(isset($_POST['theFamiliar']) && $_POST['theFamiliar'] == 1) 
+        {
+            $familiarForm = getFamiliar($alignment);
+
+            $familiarFormAnimal = $familiarForm[0];
+            $familiarFormDescription = $familiarForm[1];
+
+            $familiarTypeName = getFamiliarType($alignment);
+            $familiarType = 'Type: ' . $familiarTypeName;
+
+            $familiarHitPoints = getFamiliarHitPoints($familiarTypeName);
+            $familiarHitDice = getFamiliarHitDice($familiarTypeName); 
+
+            $familiarHp = 'HP: ' . $familiarHitPoints . ' ' . $familiarHitDice;
+
+            $familiarPersonalityShort = familiarPersonality();
+            $familiarPersonality = 'Personality: ' . $familiarPersonalityShort;
+
+        }
+        else
+        {
+            $familiarFormAnimal = "";
+            $familiarFormDescription = "";
+            $familiarType = "";
+            $familiarHp = "";
+            $familiarPersonality = "";
+
+        }
+                
     
     $generationMessage = generationMesssage ($abilityScoreGen);
             
@@ -236,7 +290,7 @@
 
     $nameGenMessage = getNameDescript($givenName, $surname);
 
-    
+    /*
     
         if(isset($_POST["theArmour"]))
         {
@@ -270,8 +324,8 @@
        $totalAcDefense = $armourACBonus + $shieldACBonus;
        $totalAcCheckPen = $armourCheckPen + $shieldCheckPen;
        $speedPenality = $armourSpeedPen;
-
-       $speed = 30 - $armourSpeedPen;
+*/
+       $speed = 30;
 
        $reflexBase = savingThrowReflex($level);
        $fortBase = savingThrowFort($level);
@@ -286,38 +340,29 @@
        $actionDice = actionDice($level);
 
        $title = title($level, $alignment);
-       
-       
-       if(isset($_POST["theLuckyWeapon"]))
-       {
-           $luckyWeaponNumberString = $_POST["theLuckyWeapon"];
-       } 
-
-       $luckyWeaponNumber = (int)$luckyWeaponNumberString;
-       $luckyWeapon = getWeapon($luckyWeaponNumber)[0];
 
 
         $weaponArray = array();
         $weaponNames = array();
         $weaponDamage = array();
     
-    //For Random Select gear
-    if(isset($_POST['thecheckBoxRandomWeaponsV3']) && $_POST['thecheckBoxRandomWeaponsV3'] == 1) 
-    {
-        $weaponArray = getRandomWeapons($luckyWeaponNumber);
-
-    }
-    else
-    {
-        if(isset($_POST["theWeapons"]))
+        //For Random Select weapon
+        if(isset($_POST['thecheckBoxRandomWeaponsV3']) && $_POST['thecheckBoxRandomWeaponsV3'] == 1) 
         {
-            foreach($_POST["theWeapons"] as $weapon)
+            $weaponArray = getRandomWeapons();
+        
+       }
+        else
+       {
+            if(isset($_POST["theWeapons"]))
             {
-                array_push($weaponArray, $weapon);
+                    foreach($_POST["theWeapons"] as $weapon)
+                    {
+                        array_push($weaponArray, $weapon);
+                    }
             }
-        }
-    }
-
+       }
+        
     
     foreach($weaponArray as $select)
     {
@@ -497,63 +542,6 @@
         <span id="speed"></span>
 
 
-              
-       <span id="armourName">
-           <?php
-           if($armourName == "")
-           {
-               echo $shieldName;
-           }
-           else if($shieldName == "")
-           {
-                echo $armourName;
-           }
-           else
-           {
-            echo $armourName . " & " . $shieldName;
-           }
-           ?>
-        </span>
-
-        <span id="armourACBonus">
-            <?php
-                echo $totalAcDefense;
-            ?>
-        </span>
-
-        
-        <span id="armourACCheckPen">
-            <?php
-                echo $totalAcCheckPen;
-            ?>
-        </span>
-        
-        <span id="armourACSpeedPen">
-            <?php
-            if($speedPenality == 0)
-            {
-                echo "-";
-            }
-            else
-            {
-                echo "-" . $speedPenality;
-            }
-            ?>
-        </span>
-
-        <span id="fumbleDie">
-            <?php
-            if($armourName == "")
-            {
-                echo $shieldFumbleDie;
-            }
-            else
-            {
-                echo $armourFumbleDie;
-            }
-            ?>
-        </span>
-
         <span id="criticalDieTable">
             <?php
                 echo $criticalDie;
@@ -593,17 +581,32 @@
                 echo $title;
             ?>
         </span>
+
+        
+        <span id="patronName">
+            <?php
+                echo $patronName;
+            ?>
+        </span>
+
+        <span id="patronDescription">
+            <?php
+                echo  $patronDescription;
+            ?>
+        </span>
+        
+        
+        <span id="familiarForm">
+            <?php
+                echo  $familiarFormAnimal . '   ' . $familiarFormDescription . '<br/><br/>' . $familiarType . '<br/><br/>' . $familiarHp . '<br/><br/>' . $familiarPersonality;
+            ?>
+        </span>
+
         
 
         
 		<p id="birthAugur"><span id="luckySign"></span>: <span id="luckyRoll"></span> (<span id="LuckySignBonus"></span>)</p>
         
-        <span id="luckyWeapon">
-            <?php
-                echo $luckyWeapon;
-            ?>
-        </span>
-
         
         <span id="melee"></span>
         <span id="range"></span>
@@ -701,7 +704,6 @@
         let luckMod = <?php echo $luckMod ?>;
         let level = '<?php echo $level ?>';
         let gender = '<?php echo $gender ?>';
-        let armour = '<?php echo $armourName ?>';
 	    let	profession = getOccupation();
 	    let birthAugur = getLuckySign();
         let bonusLanguages = getBonusLanguages(intelligenceMod, birthAugur, luckMod);
@@ -728,7 +730,7 @@
             "trainedWeapon": profession.trainedWeapon,
             "tradeGoods": profession.tradeGoods,
             "addLanguages": "Common" + bonusLanguages,
-            "armourClass": <?php echo $totalAcDefense ?> + baseAC,
+            "armourClass": baseAC,
             "hp": getHitPoints (level, staminaMod) + hitPointAdjustPerLevel(birthAugur,  luckMod),
 			"melee": strengthMod + meleeAdjust(birthAugur, luckMod),
 			"range": agilityMod + rangeAdjust(birthAugur, luckMod),
