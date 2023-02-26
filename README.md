@@ -9,6 +9,18 @@ The two most notable differences between Version 3 and Version 4 of the DCC Wiza
 
 -------------
 
+
+Dungeon Crawl Classics Wizard Character Generator Version 4:
+
+https://www.oldschooladventures.org/dcc2/more/classes/wizard/
+
+-----------
+
+Update 1.02: 2023-02-25
+
+Completed verison of the DCC Wizard Character Generator Version 4 has been uploaded.  Links to a live version of the generator added to the ReadMe file.
+
+
 Update 1.01: 2023-02-24
 
 New files added: patron.php, and familiar.php.  Updates to weapons.php, and dccWizard.php.
