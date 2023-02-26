@@ -1,5 +1,6 @@
 <?php
-//Warrior
+
+/*Wizard */
 
 function getGear($input)
 {
@@ -38,6 +39,7 @@ function getGear($input)
         
         return $arr[$input];
 }
+
 
 
 function getRandomGear()

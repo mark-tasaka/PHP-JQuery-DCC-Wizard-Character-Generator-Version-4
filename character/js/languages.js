@@ -4,24 +4,38 @@ addBonusLanguages() - returns Randomly selected WARRIOR Bonus Languages
 function addBonusLanguages() {
 	var bonusLanguages = [
 		{"language": "Alignment Tongue"},
-		{"language": "Dwarf"},
 		{"language": "Elf"},
 		{"language": "Halfling"},
-		{"language": "Harpy"},
+		{"language": "Dwarf"},
+		{"language": "Gnome"},
 		{"language": "Bugbear"},
+		{"language": "Lizard man"},
+		{"language": "Harpy"},
 		{"language": "Goblin"},
 		{"language": "Gnoll"},
-		{"language": "Hobgolin"},
+		{"language": "Hobgoblin"},
 		{"language": "Kobold"},
-		{"language": "Lizardman"},
 		{"language": "Minotaur"},
-		{"language": "Serpent-man"},
 		{"language": "Ogre"},
 		{"language": "Orc"},
+		{"language": "Serpent man"},
 		{"language": "Troglodyte"},
-		{"language": "Giant"}
+		{"language": "Angelic"},
+		{"language": "Centaur"},
+		{"language": "Demonic"},
+		{"language": "Doppelganger"},
+		{"language": "Dragon"},
+		{"language": "Pixie"},
+		{"language": "Giant"},
+		{"language": "Naga"},
+		{"language": "Bear"},
+		{"language": "Eagle"},
+		{"language": "Horse"},
+		{"language": "Wolf"},
+		{"language": "Spider"},
+		{"language": "Undercommon"}
 			];
-    return bonusLanguages[Math.floor(Math.random() * 17)]; 
+    return bonusLanguages[Math.floor(Math.random() * bonusLanguages.length)]; 
 }
 		
 	  
@@ -47,7 +61,7 @@ function getBonusLanguages (intelligenceModifier, luckySign, luckModifier) {
 	var result = ", " + addBonusLanguages().language, newLanguage = "";
 	
 	// loop
-	for(var i = 1; i < bonusLanguages; i++){
+	for(var i = 1; i < (bonusLanguages * 2); i++){
 		// 1) get a random lang
 		newLanguage = addBonusLanguages().language;
 		// 2) check the new lang is not repeative

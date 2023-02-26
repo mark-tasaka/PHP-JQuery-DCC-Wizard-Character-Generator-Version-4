@@ -19,9 +19,6 @@
     <script type="text/javascript" src="./js/dieRoll.js"></script>
     <script type="text/javascript" src="./js/modifiers.js"></script>
     <script type="text/javascript" src="./js/hitPoinst.js"></script>
-    <script type="text/javascript" src="./js/abilityScoreAddition.js"></script>
-    <script type="text/javascript" src="./js/criticalDie.js"></script>
-    <script type="text/javascript" src="./js/classAbilities.js"></script>
     <script type="text/javascript" src="./js/occupation.js"></script>
     <script type="text/javascript" src="./js/luckySign.js"></script>
     <script type="text/javascript" src="./js/adjustments.js"></script>
@@ -35,7 +32,6 @@
     <!--PHP-->
     <?php
     
-    include 'php/armour.php';
     include 'php/checks.php';
     include 'php/weapons.php';
     include 'php/gear.php';
@@ -257,14 +253,14 @@
         {
             rsort($abilityScoreArray);
 
-            $strength = $abilityScoreArray[0];
-            $agility = $abilityScoreArray[2];
-            $stamina = $abilityScoreArray[1];
-            $personality = $abilityScoreArray[4];
-            $intelligence = $abilityScoreArray[5];
-            $luck = $abilityScoreArray[3];
+            $strength = $abilityScoreArray[5];
+            $agility = $abilityScoreArray[4];
+            $stamina = $abilityScoreArray[3];
+            $personality = $abilityScoreArray[1];
+            $intelligence = $abilityScoreArray[0];
+            $luck = $abilityScoreArray[2];
 
-            $optimizeAbilityScoreMessage = "<br/>Ability Scores optimized in the order of Str, Sta, Agi, Luck, Per, Int.";
+            $optimizeAbilityScoreMessage = "<br/>Ability Scores optimized in the order of Int, Per, Luck, Sta, Agi, Str.";
         }
         else
         {
@@ -290,41 +286,7 @@
 
     $nameGenMessage = getNameDescript($givenName, $surname);
 
-    /*
-    
-        if(isset($_POST["theArmour"]))
-        {
-            $armour = $_POST["theArmour"];
-        }
-    
-        $armourName = getArmour($armour)[0];
-        
-        $armourACBonus = getArmour($armour)[1];
-        $armourCheckPen = getArmour($armour)[2];
-        $armourSpeedPen = getArmour($armour)[3];
-        $armourFumbleDie = getArmour($armour)[4];
 
-        if(isset($_POST['theCheckBoxShield']) && $_POST['theCheckBoxShield'] == 1) 
-        {
-            $shieldName = getArmour(10)[0];
-            $shieldACBonus = getArmour(10)[1];
-            $shieldCheckPen = getArmour(10)[2];
-            $shieldSpeedPen = getArmour(10)[3];
-            $shieldFumbleDie = getArmour(10)[4];
-        }
-        else
-        {
-            $shieldName = getArmour(11)[0];
-            $shieldACBonus = getArmour(11)[1];
-            $shieldCheckPen = getArmour(11)[2];
-            $shieldSpeedPen = getArmour(11)[3];
-            $shieldFumbleDie = getArmour(11)[4];
-        } 
-
-       $totalAcDefense = $armourACBonus + $shieldACBonus;
-       $totalAcCheckPen = $armourCheckPen + $shieldCheckPen;
-       $speedPenality = $armourSpeedPen;
-*/
        $speed = 30;
 
        $reflexBase = savingThrowReflex($level);
@@ -332,15 +294,16 @@
        $willBase = savingThrowWill($level);
 
        $criticalDie = criticalDie($level);
-
-      // $attackBonus = attackBonus($level);
-       $deedDie = deedDie($level);
-       $threatRange = threatRange($level);
+       
+       $attackBonus = attackBonus($level);
 
        $actionDice = actionDice($level);
 
        $title = title($level, $alignment);
 
+       $knownSpells = knownSpells($level);
+
+       $maxSpellLevel = maxSpellLevel($level);
 
         $weaponArray = array();
         $weaponNames = array();
@@ -548,25 +511,13 @@
             ?>
         </span>
 
-        
-        <span id="deedDie">
-            <?php
-                echo $deedDie;
-            ?>
-        </span>
-
-        
-        
-        <span id="threatRange">
-            <?php
-                echo $threatRange;
-            ?>
-        </span>
-
-        
-
         <span id="initiative">
         </span>
+
+        
+        <span id="attackBonus">
+        </span>
+
         
         <span id="actionDice">
             <?php
@@ -574,13 +525,29 @@
             ?>
         </span>
 
-
+        <span id="spellCheck">
+        </span>
         
         <span id="title">
             <?php
                 echo $title;
             ?>
         </span>
+                
+        <span id="knownSpells">
+            <?php
+                echo $knownSpells;
+            ?>
+        </span>
+
+        
+        <span id="maxSpellLevel">
+            <?php
+                echo $maxSpellLevel;
+            ?>
+        </span>
+        
+
 
         
         <span id="patronName">
@@ -707,6 +674,7 @@
 	    let	profession = getOccupation();
 	    let birthAugur = getLuckySign();
         let bonusLanguages = getBonusLanguages(intelligenceMod, birthAugur, luckMod);
+        let attackBonus = <?php echo $attackBonus ?>;
 	    let baseAC = getBaseArmourClass(agilityMod) + adjustAC(birthAugur, luckMod);
 
 		let wizardCharacter = {
@@ -732,6 +700,8 @@
             "addLanguages": "Common" + bonusLanguages,
             "armourClass": baseAC,
             "hp": getHitPoints (level, staminaMod) + hitPointAdjustPerLevel(birthAugur,  luckMod),
+            "attackBonus": attackBonus,
+            "spellCheck": <?php echo $level ?> + intelligenceMod,
 			"melee": strengthMod + meleeAdjust(birthAugur, luckMod),
 			"range": agilityMod + rangeAdjust(birthAugur, luckMod),
 			"meleeDamage": strengthMod + meleeDamageAdjust(birthAugur, luckMod),
@@ -739,7 +709,7 @@
             "reflex": <?php echo $reflexBase ?> + agilityMod + adjustRef(birthAugur, luckMod),
             "fort": <?php echo $fortBase ?> + staminaMod + adjustFort(birthAugur,luckMod),
             "will": <?php echo $willBase ?> + personalityMod + adjustWill(birthAugur, luckMod),
-            "initiative": <?php echo $level ?> + agilityMod + adjustInit(birthAugur, luckMod)
+            "initiative": agilityMod + adjustInit(birthAugur, luckMod)
 
 		};
 	    if(wizardCharacter.hitPoints <= 0 ){
@@ -785,7 +755,7 @@
       
       $("#staminaMod").html(data.staminaModifer);
       
-      $("#luckMod").html(data.luckModifer);
+      $("#luckMod").html(data.luckModifer);attackBonus
       
       
       
@@ -808,6 +778,9 @@
       $("#LuckySignBonus").html(data.luckModifer);
 
       $("#languages").html(data.addLanguages);
+      $("#attackBonus").html(addModifierSign(data.attackBonus));
+      $("#spellCheck").html(addModifierSign(data.spellCheck));
+      
       $("#melee").html(addModifierSign(data.melee));
       $("#range").html(addModifierSign(data.range));
       $("#meleeDamage").html(addModifierSign(data.meleeDamage));

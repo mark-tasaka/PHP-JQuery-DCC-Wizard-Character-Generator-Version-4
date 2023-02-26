@@ -41,12 +41,6 @@ body{
 	font-size: 0.85em;
 }
 
-#gender{
-    position:absolute;
-    top: 135px;
-    left: 290px;
-	font-size: 0.85em;
-}
 
 
 #alignment{
@@ -149,21 +143,9 @@ body{
 	font-size: 0.5em;
 }
 
-#gearWeight{
-    position:absolute;
-    top: 832px;
-    left: 485px;
-	font-size: 0.5em;
-}
 
 
 
-#weaponNotes{
-    position:absolute;
-    top: 1143px;
-    left: 610px;
-	font-size: 0.4em;
-}
 
 
 #gearList{
@@ -174,12 +156,39 @@ body{
     width: 220px;
 }
 
+
+#patronName{
+    position:absolute;
+    top: 740px;
+    left: 700px;
+    font-size: 1em;
+}
+
+
+#patronDescription{
+    position:absolute;
+    top: 768px;
+    left: 700px;
+    font-size: 0.7em;
+    width: 220px;
+}
+
+
+#familiarForm{
+    position:absolute;
+    top: 872px;
+    left: 700px;
+    font-size: 0.7em;
+    width: 220px;
+}
+
+
 #abilityScoreGeneration{
     position:absolute;
     top: 1060px;
     left: 700px;
     font-size: 0.5em;
-    width: 190px;
+    width: 210px;
 }
 
 
@@ -419,12 +428,6 @@ body{
     font-size: 0.85em;
 }
 
-#deedDie{
-    position:absolute;
-    top: 370px;
-    left: 470px;
-    font-size: 0.9em;
-}
 
 #initiative{
     position:absolute;
@@ -457,25 +460,25 @@ body{
 
 #languages{
     position:absolute;
-    top: 430px;
-    left: 360px;
-    font-size: 0.8em;
+    top: 870px;
+    left: 85px;
+    font-size: 0.9em;
     width: 300px;
 }
 
 
 #melee{
     position:absolute;
-    top: 503px;
-    left: 573px;
+    top: 467px;
+    left: 555px;
 	font-size: 1em;
 }
 
 
 #range{
     position:absolute;
-    top: 546px;
-    left: 573px;
+    top: 510px;
+    left: 555px;
 	font-size: 1em;
 }
 
@@ -483,19 +486,18 @@ body{
 
 #meleeDamage{
     position:absolute;
-    top: 503px;
-    left: 620px;
+    top: 467px;
+    left: 602px;
 	font-size: 1em;
 }
 
 
 #rangeDamage{
     position:absolute;
-    top: 546px;
-    left: 620px;
+    top: 510px;
+    left: 602px;
 	font-size: 1em;
 }
-
 
 
 #dieRollMethod{
@@ -503,4 +505,37 @@ body{
     top: 100px;
     left:  50px;
 	font-size: 0.5em;
+}
+
+
+
+#spellCheck{
+    position:absolute;
+    top: 370px;
+    left: 490px;
+	font-size: 1em;
+}
+
+
+#attackBonus{
+    position:absolute;
+    top: 370px;
+    left: 617px;
+	font-size: 1em;
+}
+
+
+#maxSpellLevel{
+    position:absolute;
+    top: 624px;
+    left: 590px;
+    font-size: 1em;
+}
+
+
+#knownSpells{
+    position:absolute;
+    top: 654px;
+    left: 590px;
+    font-size: 1em;
 }
